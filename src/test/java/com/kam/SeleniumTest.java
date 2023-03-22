@@ -4,15 +4,20 @@
  */
 package com.kam;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -36,6 +41,7 @@ public class SeleniumTest {
 		options.setAcceptInsecureCerts(true);
 		options.addArguments("--remote-allow-origins=*");
 		options.addArguments("--headless");
+		options.addArguments("--window-size=1920x1080");
 		options.setBrowserVersion("latest");
 		// init driver
 		driver = new ChromeDriver(options);
@@ -112,8 +118,13 @@ public class SeleniumTest {
 	}
 
 	@AfterClass
-
 	private void teardown() {
+		File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			FileHandler.copy(source, new File("Full_Page_Screenshot.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (driver != null) {
 			driver.close();
 			driver.quit();
