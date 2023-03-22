@@ -35,6 +35,7 @@ public class SeleniumTest {
 		ChromeOptions options = new ChromeOptions();
 		options.setAcceptInsecureCerts(true);
 		options.addArguments("--remote-allow-origins=*");
+		options.addArguments("--headless");
 		options.setBrowserVersion("latest");
 		// init driver
 		driver = new ChromeDriver(options);
