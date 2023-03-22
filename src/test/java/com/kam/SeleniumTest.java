@@ -4,15 +4,9 @@
  */
 package com.kam;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;
-import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -50,15 +44,15 @@ public class SeleniumTest {
 		driver.get("https://paytm.com/");
 		hover(driver.findElement(By.linkText("Paytm for Consumer")));
 		hover(driver.findElement(By.linkText("Payments")));
-		WebElement logo = driver.findElement(By.linkText("Payments"));
-		File file = logo.getScreenshotAs(OutputType.FILE);
-		File destFile = new File("logo.png");
-		try {
-			FileUtils.copyFile(file, destFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// WebElement logo = driver.findElement(By.linkText("Payments"));
+		// File file = logo.getScreenshotAs(OutputType.FILE);
+		// File destFile = new File("logo.png");
+		// try {
+		// FileUtils.copyFile(file, destFile);
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
 		// click(driver.findElement(By.linkText("Bill Payment & Recharges").to));
 		click(driver.findElement(
@@ -90,23 +84,12 @@ public class SeleniumTest {
 	private void waitUntillElementIsClickable(final WebElement findElement) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.ignoring(StaleElementReferenceException.class);
-	}
-
-	private void waitUntillElementIsClickable2(final WebElement findElement) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.ignoring(StaleElementReferenceException.class);
-		wait.until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf(findElement)));
+		wait.until(ExpectedConditions.elementToBeClickable(findElement));
 	}
 
 	private void waitUntillElementIsVisible(final WebElement findElement) {
 		Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		// wait.until(driver -> findElement.getAttribute("class").contains("ui-ele"));
-		wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(findElement)));
-	}
-
-	private void waitUntillElementIsVisibleFW(final WebElement findElement) {
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).pollingEvery(Duration.ofMillis(500))
-				.withTimeout(Duration.ofSeconds(30)).ignoring(StaleElementReferenceException.class);
 		wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(findElement)));
 	}
 
